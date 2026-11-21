@@ -131,9 +131,11 @@ const pick=document.createElement("input");pick.type="color";pick.title="직접 
 pick.oninput=e=>{const c=e.target.value;applyTheme("custom",{label:"귀사",accent:c,accent2:c,onAccent:"#fff"})};
 dock.append(pick);
 let saved=null;try{saved=localStorage.getItem("theme")}catch(e){}
-const q=new URLSearchParams(location.search).get("company");
-applyTheme([q,saved,DEFAULT_THEME].find(k=>THEMES[k])||Object.keys(THEMES)[0]);
+const q = new URLSearchParams(location.search).get("company");
 
+applyTheme(
+  THEMES[q] ? q : DEFAULT_THEME
+);
 /* ---- content ---- */
 $("name").textContent=$("name").dataset.t=P.name;$("hanja").textContent=P.hanja;$("intro").textContent=P.intro;
 $("mail").textContent=P.email;$("mail").href="mailto:"+P.email;$("gh").href=P.github;
