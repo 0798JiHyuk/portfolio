@@ -45,6 +45,19 @@ transform-style:preserve-3d;transition:transform .15s,border-color .3s;position:
 .card::before{content:"";position:absolute;inset:0;background:radial-gradient(260px circle at var(--cx,50%) var(--cy,0%),color-mix(in srgb,var(--accent2) 30%,transparent),transparent 70%);opacity:0;transition:opacity .3s}
 .card:hover{border-color:var(--accent2)}.card:hover::before{opacity:1}
 .card>*{position:relative}
+.card .project-open{position:static;align-self:flex-start;margin-top:auto;border:0;padding:0;background:none;color:var(--accent2);font:inherit;font-weight:600;cursor:pointer}
+.project-open::after{content:"";position:absolute;inset:0;border-radius:20px}
+.card:focus-within{outline:2px solid var(--accent2);outline-offset:3px}
+.project-dialog{box-sizing:border-box;width:min(680px,calc(100% - 32px));max-height:calc(100dvh - 32px);margin:auto;padding:clamp(20px,5vw,36px);border:1px solid var(--line);border-radius:20px;background:var(--panel);color:var(--text)}
+.project-dialog::backdrop{background:rgb(0 0 0 / .7)}
+.project-dialog header,.project-dialog .project-actions{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.project-dialog header h2{margin:0;font-size:clamp(22px,5vw,32px)}
+.project-dialog .btn{color:inherit;background:none;font:inherit;cursor:pointer}
+.project-dialog .btn.pri{background:var(--accent);color:var(--on)}
+.project-dialog h3{margin-top:24px}
+.project-dialog h4,.project-dialog p{margin-top:10px}
+.project-dialog .project-actions{justify-content:flex-start;margin-top:24px;flex-wrap:wrap}
+#project-link-status{color:var(--mute);font-size:14px}
 .badge{align-self:flex-start;background:var(--accent);color:var(--on);font-size:13px;font-weight:700;padding:5px 12px;border-radius:999px}
 .card h3{font-size:26px;letter-spacing:-.02em}
 .per{color:var(--mute);font-size:14px}
@@ -102,8 +115,25 @@ background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(14p
   <section id="history"><h2>History</h2><div class="chips" id="chips"></div><ol class="tl" id="tl"></ol></section>
   <section id="certs"><h2>Certificates &amp; Skills</h2><div class="cgrid" id="cgrid"></div><div class="sk" id="sk"></div></section>
 </main>
+<dialog class="project-dialog" id="project-dialog" aria-labelledby="project-title">
+  <header>
+    <h2 id="project-title"></h2>
+    <form method="dialog"><button class="btn" autofocus>닫기</button></form>
+  </header>
+  <p id="project-summary"></p>
+  <h3 id="project-case"></h3>
+  <h4>발생한 문제</h4>
+  <p id="project-problem"></p>
+  <h4>해결 방법</h4>
+  <p id="project-solution"></p>
+  <div class="project-actions">
+    <a class="btn pri" id="project-link" href="#" target="_blank" rel="noopener">프로젝트 바로가기</a>
+    <span id="project-link-status">배포 링크 준비 중</span>
+    <a class="btn" id="project-source" target="_blank" rel="noopener">관련 코드 보기</a>
+  </div>
+</dialog>
 <footer id="contact"><h2 style="color:var(--text)">Contact</h2>
-  <p><a id="mail"></a> · <a id="gh" target="_blank" rel="noopener">GitHub</a></p></footer>
+  <p><a id="mail"></a> · <a id="gh" target="_blank" rel="noopener">GitHub</a> · <a id="velog" target="_blank" rel="noopener">기술 블로그 (Velog)</a></p></footer>
 
 <div class="dock" id="dock" role="group" aria-label="기업 테마 선택"><small>지원 기업 색상</small></div>
 
@@ -139,12 +169,36 @@ applyTheme(
 /* ---- content ---- */
 $("name").textContent=$("name").dataset.t=P.name;$("hanja").textContent=P.hanja;$("intro").textContent=P.intro;
 $("mail").textContent=P.email;$("mail").href="mailto:"+P.email;$("gh").href=P.github;
+$("velog").href=P.velog;
 document.title=`${P.name} · ${P.role} Portfolio`;
 
 $("pgrid").innerHTML=PROJECTS.map(p=>`<article class="card"><span class="badge">${esc(p.badge)}</span>
 <h3>${esc(p.title)}</h3><span class="per">${esc(p.period)}</span><p>${esc(p.summary)}</p>
 <div class="tags">${p.tags.map(t=>`<span>${esc(t)}</span>`).join("")}</div>
-${p.link?`<a href="${esc(p.link)}" target="_blank" rel="noopener">자세히 보기</a>`:""}</article>`).join("");
+<button class="project-open" type="button" aria-haspopup="dialog">자세히 보기</button></article>`).join("");
+
+const projectDialog = $("project-dialog");
+const projectLink = $("project-link");
+document.querySelectorAll(".project-open").forEach((button, index) => {
+  const project = PROJECTS[index];
+  button.setAttribute("aria-label", project.title + " 자세히 보기");
+  button.addEventListener("click", () => {
+    const { title, problem, solution, source } = project.troubleshooting;
+    $("project-title").textContent = project.title;
+    $("project-summary").textContent = project.summary;
+    $("project-case").textContent = title;
+    $("project-problem").textContent = problem;
+    $("project-solution").textContent = solution;
+    $("project-source").href = source;
+    const link = project.link || "#";
+    projectLink.setAttribute("href", link);
+    $("project-link-status").hidden = link !== "#";
+    projectDialog.showModal();
+  });
+});
+projectLink.addEventListener("click", event => {
+  if (projectLink.getAttribute("href") === "#") event.preventDefault();
+});
 
 const types={all:"전체",award:"수상",edu:"학력",train:"교육",army:"병역"};
 $("chips").innerHTML=Object.entries(types).map(([k,v])=>`<button class="chip" data-k="${k}" aria-pressed="${k==="all"}">${v}</button>`).join("");
