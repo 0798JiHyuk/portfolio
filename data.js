@@ -4,7 +4,7 @@ window.PROFILE = {
   name: "김지혁",
   hanja: "金知弈",
   role: "Backend Developer",
-  intro: "Java · Spring Boot로 서비스를 만들고, 해커톤에서 MVP까지 끝까지 완성합니다.",
+  intro: "컴퓨터공학의 기본기를 바탕으로 문제의 본질을 이해하고, AI를 효율적으로 활용해 숲을 보며 개발하는 개발자입니다.",
   email: "your@email.com",
   github: "https://github.com/your-id",
 };
