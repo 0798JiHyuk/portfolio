@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>김지혁 · Portfolio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{--accent:#1428A0;--accent2:#4F7CFF;--on:#fff;
+--bg:color-mix(in srgb,var(--accent) 9%,#0c0e13);
+--panel:color-mix(in srgb,var(--accent) 14%,#161922);
+--line:color-mix(in srgb,var(--accent) 35%,#2a2e3a);
+--text:#eef0f6;--mute:#9aa1b4;--mx:50%;--my:30%}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;transition:background .6s}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+background:radial-gradient(600px circle at var(--mx) var(--my),color-mix(in srgb,var(--accent2) 28%,transparent),transparent 60%)}
+main,header,footer{position:relative;z-index:1}
+section{max-width:1080px;margin:0 auto;padding:96px 24px 0}
+h2{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-.02em;margin-bottom:32px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent2);outline-offset:3px}
+
+/* hero */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;max-width:1080px;margin:0 auto;padding:0 24px}
+.to{font-size:18px;color:var(--mute)}
+.to b{color:var(--accent2);font-weight:700;transition:color .4s}
+.name{font-size:clamp(72px,17vw,220px);font-weight:900;letter-spacing:-.05em;line-height:1;margin:12px 0;
+color:transparent;-webkit-text-stroke:2px var(--accent2);position:relative;width:fit-content;cursor:default;transition:-webkit-text-stroke-color .4s}
+.name::after{content:attr(data-t);position:absolute;inset:0;color:var(--accent2);-webkit-text-stroke:0;
+clip-path:circle(0 at var(--lx,50%) var(--ly,50%));transition:clip-path .45s ease}
+.name:hover::after{clip-path:circle(160% at var(--lx,50%) var(--ly,50%))}
+.hanja{font-size:20px;color:var(--mute);letter-spacing:.4em}
+.intro{max-width:560px;font-size:20px;margin-top:24px}
+.cta{display:flex;gap:12px;margin-top:36px;flex-wrap:wrap}
+.btn{padding:13px 24px;border-radius:999px;border:1px solid var(--line);text-decoration:none;font-weight:600;transition:transform .2s,background .3s}
+.btn.pri{background:var(--accent);color:var(--on);border-color:transparent}
+.btn:hover{transform:translateY(-2px)}
+
+/* projects */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;perspective:1000px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:14px;
+transform-style:preserve-3d;transition:transform .15s,border-color .3s;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(260px circle at var(--cx,50%) var(--cy,0%),color-mix(in srgb,var(--accent2) 30%,transparent),transparent 70%);opacity:0;transition:opacity .3s}
+.card:hover{border-color:var(--accent2)}.card:hover::before{opacity:1}
+.card>*{position:relative}
+.badge{align-self:flex-start;background:var(--accent);color:var(--on);font-size:13px;font-weight:700;padding:5px 12px;border-radius:999px}
+.card h3{font-size:26px;letter-spacing:-.02em}
+.per{color:var(--mute);font-size:14px}
+.card p{color:#cfd3e0;font-size:15px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.tags span,.sk span{font-size:13px;padding:4px 11px;border:1px solid var(--line);border-radius:8px;color:var(--mute)}
+
+/* timeline */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.chip{background:none;color:var(--mute);border:1px solid var(--line);border-radius:999px;padding:7px 16px;font:inherit;font-size:14px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--accent);color:var(--on);border-color:transparent}
+.tl{list-style:none;padding:0;border-left:2px solid var(--line);margin-left:8px}
+.tl li{position:relative;padding:0 0 28px 30px}
+.tl li::before{content:"";position:absolute;left:-8px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--accent2);transition:background .3s}
+.tl li:hover::before{background:var(--accent2)}
+.tl time{font-size:14px;color:var(--accent2);font-weight:700}
+.tl h4{font-size:19px}.tl p{color:var(--mute);font-size:14px}
+.tl li.hide{display:none}
+
+/* certs & skills */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.cert{border:1px solid var(--line);border-radius:16px;padding:20px;background:var(--panel)}
+.cert h4{font-size:18px;margin-bottom:4px}.cert p{color:var(--mute);font-size:14px}
+.sk{margin-top:32px;display:grid;gap:14px}
+.sk div{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sk em{font-style:normal;width:130px;color:var(--mute);font-size:14px}
+.sk span{color:var(--text);background:var(--panel)}
+footer{max-width:1080px;margin:0 auto;padding:96px 24px 140px;color:var(--mute)}
+
+/* theme dock */
+.dock{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:10;display:flex;gap:8px;align-items:center;
+background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:999px;padding:8px 12px;max-width:94vw;overflow-x:auto}
+.dock button{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;flex:none;transition:transform .2s}
+.dock button:hover{transform:scale(1.2)}
+.dock button[aria-pressed=true]{border-color:#fff}
+.dock input{width:30px;height:30px;border:0;padding:0;background:none;cursor:pointer;flex:none}
+.dock small{color:var(--mute);font-size:12px;white-space:nowrap;padding:0 6px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media (max-width:600px){.dock small{display:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <p class="to">To. <b id="company"></b> 에 지원합니다</p>
+  <h1 class="name" id="name"></h1>
+  <p class="hanja" id="hanja"></p>
+  <p class="intro" id="intro"></p>
+  <div class="cta">
+    <a class="btn pri" href="#projects">프로젝트 보기</a>
+    <a class="btn" href="#history">연혁 보기</a>
+  </div>
+</header>
+<main>
+  <section id="projects"><h2>Projects</h2><div class="pgrid" id="pgrid"></div></section>
+  <section id="history"><h2>History</h2><div class="chips" id="chips"></div><ol class="tl" id="tl"></ol></section>
+  <section id="certs"><h2>Certificates &amp; Skills</h2><div class="cgrid" id="cgrid"></div><div class="sk" id="sk"></div></section>
+</main>
+<footer id="contact"><h2 style="color:var(--text)">Contact</h2>
+  <p><a id="mail"></a> · <a id="gh" target="_blank" rel="noopener">GitHub</a></p></footer>
+
+<div class="dock" id="dock" role="group" aria-label="기업 테마 선택"><small>지원 기업 색상</small></div>
+
+<script src="theme.config.js"></script>
+<script src="data.js"></script>
+<script>
+const $=id=>document.getElementById(id), P=PROFILE, esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+
+/* ---- theme ---- */
+function applyTheme(key,custom){
+  const t=custom||THEMES[key]; if(!t)return;
+  const r=document.documentElement.style;
+  r.setProperty("--accent",t.accent);r.setProperty("--accent2",t.accent2);r.setProperty("--on",t.onAccent);
+  $("company").textContent=t.label;
+  document.querySelectorAll("#dock button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===key));
+  try{localStorage.setItem("theme",key)}catch(e){}
+}
+const dock=$("dock");
+Object.entries(THEMES).forEach(([k,t])=>{
+  const b=document.createElement("button");b.dataset.k=k;b.title=t.label;b.setAttribute("aria-label",t.label);
+  b.style.background=`linear-gradient(135deg,${t.accent} 50%,${t.accent2} 50%)`;
+  b.onclick=()=>applyTheme(k);dock.append(b);
+});
+const pick=document.createElement("input");pick.type="color";pick.title="직접 색상 선택";pick.setAttribute("aria-label","직접 색상 선택");
+pick.oninput=e=>{const c=e.target.value;applyTheme("custom",{label:"귀사",accent:c,accent2:c,onAccent:"#fff"})};
+dock.append(pick);
+let saved=null;try{saved=localStorage.getItem("theme")}catch(e){}
+const q=new URLSearchParams(location.search).get("company");
+applyTheme([q,saved,DEFAULT_THEME].find(k=>THEMES[k])||Object.keys(THEMES)[0]);
+
+/* ---- content ---- */
+$("name").textContent=$("name").dataset.t=P.name;$("hanja").textContent=P.hanja;$("intro").textContent=P.intro;
+$("mail").textContent=P.email;$("mail").href="mailto:"+P.email;$("gh").href=P.github;
+document.title=`${P.name} · ${P.role} Portfolio`;
+
+$("pgrid").innerHTML=PROJECTS.map(p=>`<article class="card"><span class="badge">${esc(p.badge)}</span>
+<h3>${esc(p.title)}</h3><span class="per">${esc(p.period)}</span><p>${esc(p.summary)}</p>
+<div class="tags">${p.tags.map(t=>`<span>${esc(t)}</span>`).join("")}</div>
+${p.link?`<a href="${esc(p.link)}" target="_blank" rel="noopener">자세히 보기</a>`:""}</article>`).join("");
+
+const types={all:"전체",award:"수상",edu:"학력",train:"교육",army:"병역"};
+$("chips").innerHTML=Object.entries(types).map(([k,v])=>`<button class="chip" data-k="${k}" aria-pressed="${k==="all"}">${v}</button>`).join("");
+$("tl").innerHTML=TIMELINE.map(e=>`<li data-type="${e.type}"><time>${esc(e.d)}</time><h4>${esc(e.t)}</h4><p>${esc(e.s)}</p></li>`).join("");
+$("chips").onclick=e=>{const k=e.target.dataset.k;if(!k)return;
+  document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===e.target));
+  document.querySelectorAll("#tl li").forEach(li=>li.classList.toggle("hide",k!=="all"&&li.dataset.type!==k))};
+
+$("cgrid").innerHTML=CERTS.map(c=>`<div class="cert"><h4>${esc(c.n)}</h4><p>${esc(c.o)}</p><p>${esc(c.d)}</p></div>`).join("");
+$("sk").innerHTML=Object.entries(SKILLS).map(([k,v])=>`<div><em>${k}</em>${v.map(s=>`<span>${esc(s)}</span>`).join("")}</div>`).join("");
+
+/* ---- interactions ---- */
+addEventListener("pointermove",e=>{const s=document.body.style;s.setProperty("--mx",e.clientX+"px");s.setProperty("--my",e.clientY+"px")});
+const nm=$("name");nm.addEventListener("pointermove",e=>{const r=nm.getBoundingClientRect();
+  nm.style.setProperty("--lx",e.clientX-r.left+"px");nm.style.setProperty("--ly",e.clientY-r.top+"px")});
+if(!matchMedia("(prefers-reduced-motion:reduce)").matches)document.querySelectorAll(".card").forEach(c=>{
+  c.addEventListener("pointermove",e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+    c.style.transform=`rotateY(${(x-.5)*12}deg) rotateX(${(.5-y)*12}deg)`;c.style.setProperty("--cx",x*100+"%");c.style.setProperty("--cy",y*100+"%")});
+  c.addEventListener("pointerleave",()=>c.style.transform="")});
+</script>
+</body>
+</html>
