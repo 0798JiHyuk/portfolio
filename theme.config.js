@@ -8,7 +8,7 @@
 //  - onAccent : accent 위에 올라가는 글자색 (노란색처럼 밝으면 어두운 색)
 //  - label    : 히어로 문구에 표시될 지원 기업 이름
 // ============================================================
-window.DEFAULT_THEME = "samsung";
+window.DEFAULT_THEME = "default";
 
 window.THEMES = {
   default: { label: "기본", accent: "#1428A0", accent2: "#4F7CFF", onAccent: "#ffffff" },
