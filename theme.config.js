@@ -11,6 +11,7 @@
 window.DEFAULT_THEME = "samsung";
 
 window.THEMES = {
+  default: { label: "기본", accent: "#1428A0", accent2: "#4F7CFF", onAccent: "#ffffff" },
   samsung: { label: "삼성전자", accent: "#1428A0", accent2: "#4F7CFF", onAccent: "#ffffff" },
   skhynix: { label: "SK하이닉스", accent: "#EA002C", accent2: "#FF8A3D", onAccent: "#ffffff" },
   lg:      { label: "LG",       accent: "#C8003C", accent2: "#FF6B8B", onAccent: "#ffffff" },
