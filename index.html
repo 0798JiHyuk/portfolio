@@ -90,6 +90,7 @@ footer{max-width:1080px;margin:0 auto;padding:96px 24px 140px;color:var(--mute)}
 /* theme dock */
 .dock{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:10;display:flex;gap:8px;align-items:center;
 background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:999px;padding:8px 12px;max-width:94vw;overflow-x:auto}
+.dock[hidden]{display:none}
 .dock button{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;flex:none;transition:transform .2s}
 .dock button:hover{transform:scale(1.2)}
 .dock button[aria-pressed=true]{border-color:#fff}
@@ -135,7 +136,7 @@ background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(14p
 <footer id="contact"><h2 style="color:var(--text)">Contact</h2>
   <p><a id="mail"></a> · <a id="gh" target="_blank" rel="noopener">GitHub</a> · <a id="velog" target="_blank" rel="noopener">기술 블로그 (Velog)</a></p></footer>
 
-<div class="dock" id="dock" role="group" aria-label="기업 테마 선택"><small>지원 기업 색상</small></div>
+<div class="dock" id="dock" role="group" aria-label="기업 테마 선택" hidden><small>지원 기업 색상</small></div>
 
 <script src="theme.config.js"></script>
 <script src="data.js"></script>
